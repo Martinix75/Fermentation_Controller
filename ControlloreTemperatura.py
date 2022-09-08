@@ -16,8 +16,6 @@ import MartinTempUtils as util
 
 ControllerTemp = '1.0.0'
 
-wdt = WDT(timeout=3000) #abilitato il watchdog a 3 secondi
-
 def Presentazione(ssd,time): #presentazione iniziale
     ssd.fill(0) #cancella tutto lo schemo...
     ssd.show()# .. e poi mastralo!
@@ -113,6 +111,7 @@ Presentazione(ssd=oled,time=3000)
 print('Ver Controller: {} Ver MartinLib: {}'.format(ControllerTemp,util.MartinTempUtils))
 
 flagSensInit = False #flag per tenere traccia se ci sono o no sensori
+
 while flagSensInit == False:# contollo iniziale dei sensori
     flagSensInit,numSens,tempSens = ControlloSensori(sensInit,ssd=oled)
     #print(flagSensInit,numSens)
@@ -135,6 +134,8 @@ if numSens == 1:
     indiceTempo = 0 #variabile incrementabile per il tempo di attesa incr lista pow
     tempoAttesa1 = ConversioneTempoAttesa(2) #imposto tempo atteesa a n minuti
     varPow = ''
+    wdt = WDT(timeout=3000) #abilitato il watchdog a 3 secondi
+    
     while True:# crea un ciclo infinito
         if ticks_diff(ticks_ms(),tempoLetturaSens) >= 5000:# tempo di lettura sensore/agg display
             if inG1.value() == 0 and accediCh1 == True: #se la sonda è sul 1 canale...
